@@ -55,3 +55,4 @@ quarkus-vue-backend/src/main/resources/META-INF/
 dependency-reduced-pom.xml
 node/
 node_modules/
+dist/
