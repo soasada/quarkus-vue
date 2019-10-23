@@ -16,14 +16,22 @@
 #
 ###
 FROM openjdk:13-slim
-COPY quarkus-vue-backend/target/lib/* /deployments/lib/
-COPY quarkus-vue-backend/target/*-runner.jar /deployments/app.jar
+#COPY quarkus-vue-backend/target/lib/* /deployments/lib/
+#COPY quarkus-vue-backend/target/*-runner.jar /deployments/app.jar
 EXPOSE 8080
 
-#RUN apt-get update && apt-get install -y curl
-#RUN mkdir apps
-#RUN curl -L -o apps/apache-maven.tar.gz "http://ftp.cixug.es/apache/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.tar.gz" \
-#  && tar -xvf apps/apache-maven*.tar.gz -C apps
+# Install maven
+RUN apt-get update && apt-get install -y curl
+RUN mkdir apps
+RUN curl -L -o apps/apache-maven.tar.gz "http://ftp.cixug.es/apache/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.tar.gz"
+RUN tar -xvf apps/apache-maven*.tar.gz -C apps
 
-#RUN /apps/apache-maven-3.6.2/bin/mvn -f /quarkus-vue/app/pom.xml -U clean package
-CMD ["java", "-Dquarkus.http.host=0.0.0.0", "-Djava.util.logging.manager=org.jboss.logmanager.LogManager", "-jar", "/deployments/app.jar"]
+RUN mkdir -p /usr/src/quarkus-vue
+WORKDIR /usr/src/quarkus-vue
+
+COPY . .
+RUN /apps/apache-maven-3.6.2/bin/mvn -U clean install -pl :quarkus-vue-frontend
+RUN /apps/apache-maven-3.6.2/bin/mvn -U clean package -pl :quarkus-vue-backend
+RUN mv /usr/src/quarkus-vue/quarkus-vue-backend/target/*-runner.jar /usr/src/quarkus-vue/quarkus-vue-backend/target/app.jar
+
+CMD ["java", "-Dquarkus.http.host=0.0.0.0", "-Djava.util.logging.manager=org.jboss.logmanager.LogManager", "-jar", "/usr/src/quarkus-vue/quarkus-vue-backend/target/app.jar"]
