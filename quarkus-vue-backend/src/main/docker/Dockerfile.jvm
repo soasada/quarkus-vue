@@ -15,9 +15,8 @@
 # docker run -i --rm -p 8080:8080 quarkus/quarkus-vue-jvm
 #
 ###
+
 FROM openjdk:13-slim
-#COPY quarkus-vue-backend/target/lib/* /deployments/lib/
-#COPY quarkus-vue-backend/target/*-runner.jar /deployments/app.jar
 EXPOSE 8080
 
 # Install maven
@@ -26,9 +25,11 @@ RUN mkdir apps
 RUN curl -L -o apps/apache-maven.tar.gz "http://ftp.cixug.es/apache/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.tar.gz"
 RUN tar -xvf apps/apache-maven*.tar.gz -C apps
 
+# Create working dir
 RUN mkdir -p /usr/src/quarkus-vue
 WORKDIR /usr/src/quarkus-vue
 
+# Building project
 COPY . .
 RUN /apps/apache-maven-3.6.2/bin/mvn -U clean install -pl :quarkus-vue-frontend
 RUN /apps/apache-maven-3.6.2/bin/mvn -U clean package -pl :quarkus-vue-backend
