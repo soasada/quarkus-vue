@@ -1,4 +1,4 @@
-## Before building the docker image run:
+## Before building the docker image run (NO NEEDED):
 
 1. `mvn -U clean install -pl :quarkus-vue-frontend`
 2. `mvn -U clean package -pl :quarkus-vue-backend`
