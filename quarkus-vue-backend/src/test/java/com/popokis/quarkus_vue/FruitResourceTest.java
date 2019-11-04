@@ -15,7 +15,7 @@ public class FruitResourceTest {
           .when().get("/api/v1/fruits")
           .then()
              .statusCode(200)
-             .body(is("hello from Quarkus-Vue!"));
+             .body(is("hello from Quarkus-Vue!\nNumber Of processors: " + Runtime.getRuntime().availableProcessors() + "\nMemory (bytes): " + Runtime.getRuntime().maxMemory()));
     }
 
 }

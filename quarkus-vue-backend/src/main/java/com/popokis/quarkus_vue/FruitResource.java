@@ -11,6 +11,6 @@ public class FruitResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
-        return "hello from Quarkus-Vue!";
+        return "hello from Quarkus-Vue!\nNumber Of processors: " + Runtime.getRuntime().availableProcessors() + "\nMemory (bytes): " + Runtime.getRuntime().maxMemory();
     }
 }

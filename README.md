@@ -19,7 +19,7 @@ _Prerequisites_:
 
 4. Run the container using:
 
-`docker run -i --rm -p 8080:8080 quarkus/quarkus-vue-jvm`
+`docker run -i --rm -p 8080:8080 -m 256m --cpus=2 quarkus/quarkus-vue-jvm`
 
 ## Remove images except one
 
