@@ -16,7 +16,7 @@
 #
 ###
 
-FROM openjdk:13-slim
+FROM adoptopenjdk:13-jre-hotspot-bionic
 COPY quarkus-vue-backend/target/lib/* /deployments/lib/
 COPY quarkus-vue-backend/target/*-runner.jar /deployments/app.jar
 EXPOSE 8080
